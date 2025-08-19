@@ -2,30 +2,9 @@
 Clone the repository:
 
 git clone https://github.com/KohlYumul/Quiz3OBJORYumul
-
 cd Quiz3OBJORYumul
 
-Create and activate a virtual environment:
-
-# For macOS/Linux
-python3 -m venv venv
-source venv/bin/activate
-
-# For Windows
-python -m venv venv
-venv\Scripts\activate
-Install the required packages:
-
-pip install -r requirements.txt
-
-A sample requirements.txt would look like this:
-
-Django==5.2.5
-Pillow==10.4.0
-Download and set up Bootstrap:
-Download the compiled CSS and JS files from the official Bootstrap website. Place bootstrap.min.css in a static/css/ directory and bootstrap.bundle.min.js in a static/js/ directory within your project root.
-
-Run database migrations:
+Run database migrations, this can prevent first run errors:
 
 python manage.py makemigrations
 python manage.py migrate
@@ -33,6 +12,7 @@ python manage.py migrate
 Create a superuser:
 
 python manage.py createsuperuser
+
 Follow the prompts to create an admin account.
 
 Run the development server:
