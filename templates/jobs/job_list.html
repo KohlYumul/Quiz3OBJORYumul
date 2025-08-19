@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Job Listings{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Available Job Openings</h2>
+    <form class="d-flex mb-4" method="GET" action="{% url 'job-list' %}">
+        <input class="form-control me-2" type="search" placeholder="Search for jobs..." aria-label="Search" name="q" value="{{ request.GET.q }}">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    {% if jobs %}
+    <div class="list-group">
+        {% for job in jobs %}
+        <a href="{% url 'job-detail' pk=job.pk %}" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">{{ job.job_title }}</h5>
+            <p class="mb-1 text-muted">{{ job.location }}</p>
+            <small>Salary: ${{ job.min_offer }} - ${{ job.max_offer }}</small>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No job openings found.</p>
+    {% endif %}
+</div>
+{% endblock %}

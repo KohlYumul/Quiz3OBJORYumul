@@ -1,10 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}{{ job.job_title }}{% endblock %}
+
+{% block content %}
+<div class="card mb-4">
+    <div class="card-header">
+        <h2 class="card-title">{{ job.job_title }}</h2>
+    </div>
+    <div class="card-body">
+        <h5 class="card-subtitle mb-2 text-muted">{{ job.location }}</h5>
+        <p class="card-text">{{ job.job_description }}</p>
+        <p><strong>Salary Range:</strong> ${{ job.min_offer }} - ${{ job.max_offer }}</p>
+    </div>
+    <div class="card-footer">
+        {% if user.is_authenticated and user.is_admin %}
+            <a href="{% url 'job-update' pk=job.pk %}" class="btn btn-warning">Edit Job</a>
+            <a href="{% url 'job-delete' pk=job.pk %}" class="btn btn-danger">Delete Job</a>
+        {% elif user.is_authenticated and not user.is_admin %}
+            {% if not user|has_applied_for:job %}
+                <form action="{% url 'apply-for-job' pk=job.pk %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Apply for this Job</button>
+                </form>
+            {% else %}
+                <p class="text-success">You have already applied for this job.</p>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                You are unauthorized! Please <a href="{% url 'admin:login' %}">sign in</a> to view this page.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if user.is_authenticated and user.is_admin %}
+    <h3 class="mt-4">Applicants for this Position</h3>
+    {% if applicants %}
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Applied Date</th>
+                <th>Resume</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for applicant in applicants %}
+            <tr>
+                <td>{{ applicant.user.username }}</td>
+                <td>{{ applicant.user.email }}</td>
+                <td>{{ applicant.applied_date|date:"F j, Y" }}</td>
+                <td><a href="{{ applicant.resume.url }}" target="_blank">Download Resume</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No applicants yet.</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

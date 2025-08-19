@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Update Job{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Update Job Opening</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_job_title" class="form-label">Job Title</label>
+        <input type="text" name="job_title" value="{{ form.job_title.value }}" class="form-control" id="id_job_title">
+    </div>
+    <div class="mb-3">
+        <label for="id_job_description" class="form-label">Description</label>
+        <textarea name="job_description" class="form-control" id="id_job_description" rows="5">{{ form.job_description.value }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="id_min_offer" class="form-label">Min Offer</label>
+        <input type="number" name="min_offer" value="{{ form.min_offer.value }}" class="form-control" id="id_min_offer">
+    </div>
+    <div class="mb-3">
+        <label for="id_max_offer" class="form-label">Max Offer</label>
+        <input type="number" name="max_offer" value="{{ form.max_offer.value }}" class="form-control" id="id_max_offer">
+    </div>
+    <div class="mb-3">
+        <label for="id_location" class="form-label">Location</label>
+        <input type="text" name="location" value="{{ form.location.value }}" class="form-control" id="id_location">
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+{% endblock %}

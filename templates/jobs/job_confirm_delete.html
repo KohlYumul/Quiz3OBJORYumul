@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Delete Job{% endblock %}
+
+{% block content %}
+<div class="alert alert-warning" role="alert">
+    Are you sure you want to delete the job "{{ object.job_title }}"? This action cannot be undone.
+</div>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, I'm sure</button>
+    <a href="{% url 'job-detail' pk=object.pk %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
