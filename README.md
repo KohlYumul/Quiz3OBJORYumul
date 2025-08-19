@@ -2,6 +2,7 @@
 Clone the repository:
 
 git clone https://github.com/KohlYumul/Quiz3OBJORYumul
+
 cd Quiz3OBJORYumul
 
 Run database migrations, this can prevent first run errors:
@@ -38,6 +39,7 @@ Job Details: Click on a job title to view its details.
 Admin View: If logged in as an admin, you will see a table of all applicants and buttons to edit or delete the job.
 
 Regular User View: If logged in as a non-admin, you will see the job details and a form to upload your resume and apply.
+
 
 
 
